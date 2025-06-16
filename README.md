@@ -53,8 +53,8 @@ Guide a stranded rocket 🚀 through deep space ✨ to reach Earth 🌍 while av
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/space-escape.git
-   cd space-escape
+   git clone https://github.com/tomelliott96/Space-Maze-Game
+   cd Space-Maze-Game
    ```
 
 2. Install dependencies:
