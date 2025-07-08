@@ -1,7 +1,7 @@
 const prompt = require('prompt-sync')({ sigint: true });
 
 const world = '🌍';
-const comet = '☄️';
+const comet = '⚫️';
 const space = '✨';
 const rocket = '🚀';
 
@@ -14,6 +14,7 @@ class Field {
   }
 
   print() {
+    console.clear();
     console.log(this.field.map(row => row.join("")).join("\n"));
   }
 
@@ -22,21 +23,24 @@ class Field {
         👨‍🚀 Welcome, Commander!
 
         You're lost in deep space ✨, far from your home planet Earth 🌍
-        Your mission: navigate your rocket 🚀 through the space ✨ and make your way back to Earth 🌍
+        Your mission: guide your trusty rocket 🚀 through the space ✨ and find a route back to Earth 🌍
 
-        But be careful — the galaxy is full of deadly comets ☄️
-        One wrong move, and your rocket will be torn apart! 💥
+        But beware — the void is riddled with mysterious black holes ⚫️
+        Fall into one and your ship will vanish beyond the event horizon! 💥
 
         Use your navigation system to steer the rocket:
-        → ⬆️ (u) Up
-        → ⬇️ (d) Down
-        → ⬅️ (l) Left
-        → ➡️ (r) Right
+        → ⬆️ (w) Up
+        → ⬇️ (s) Down
+        → ⬅️ (a) Left
+        → ➡️ (d) Right
 
         Can you survive the dangers of space and return safely? 💫
 
         Good luck, space traveler. Earth is waiting for you! 🌍✨
         `);
+        prompt(`Press ENTER to start your mission 🚀`)
+
+        console.clear();
 
     while (!this.gameOver) {
       this.print();
@@ -72,12 +76,12 @@ class Field {
 
   updatePosition(direction) {
     switch (direction) {
-      case 'u': this.playerY -= 1; break;
-      case 'd': this.playerY += 1; break;
-      case 'l': this.playerX -= 1; break;
-      case 'r': this.playerX += 1; break;
+      case 'w': this.playerY -= 1; break;
+      case 's': this.playerY += 1; break;
+      case 'a': this.playerX -= 1; break;
+      case 'd': this.playerX += 1; break;
       default:
-        console.log(console.log("Navigation error! Use u ⬆️, d ⬇️, l ⬅️, or r ➡️ to steer your rocket through space."));
+        console.log(console.log("Navigation error! Use w ⬆️, s ⬇️, a ⬅️, or d ➡️ to steer your rocket through space."));
         return false;
     }
     return true;
