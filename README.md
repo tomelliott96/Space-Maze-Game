@@ -1,13 +1,13 @@
 # 🚀 Space Escape
 
 **A terminal-based adventure game built in JavaScript**  
-Guide a stranded rocket 🚀 through deep space ✨ to reach Earth 🌍 while avoiding deadly comets ☄️.
+Guide a stranded rocket 🚀 through deep space ✨ to reach Earth 🌍 while avoiding deadly black holes ⚫️.
 
 ---
 
 ## 🎮 Project Overview
 
-**Space Escape** is a text-based game inspired by maze pathfinding challenges. The player controls a rocket navigating through a randomly generated galaxy, where each move is a calculated risk. The goal is to reach the Earth while dodging comets. The map changes dynamically, and each game is different.
+**Space Escape** is a text-based game inspired by maze pathfinding challenges. The player controls a rocket navigating through a randomly generated galaxy, where each move is a calculated risk. The goal is to reach the Earth while dodging black holes. The map changes dynamically, and each game is different.
 
 ---
 
@@ -20,7 +20,7 @@ Guide a stranded rocket 🚀 through deep space ✨ to reach Earth 🌍 while av
   The map generation uses a Breadth-First Search algorithm to ensure the player always has a valid path to reach the goal.
 
 - 🎮 **Interactive Terminal Gameplay**  
-  Real-time user input via keyboard commands (u/d/l/r) simulates movement through the map.
+  Real-time user input via keyboard commands (w/s/a/d) simulates movement through the map.
 
 - 📉 **Game State & Logic Management**  
   Win, lose, or out-of-bounds conditions are clearly defined and managed through encapsulated methods.

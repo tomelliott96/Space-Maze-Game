@@ -1,7 +1,7 @@
 const prompt = require('prompt-sync')({ sigint: true });
 
 const world = '🌍';
-const comet = '⚫️';
+const hole = '⚫️';
 const space = '✨';
 const rocket = '🚀';
 
@@ -14,64 +14,70 @@ class Field {
   }
 
   print() {
-    console.clear();
+    console.clear()
     console.log(this.field.map(row => row.join("")).join("\n"));
   }
 
   runGame() {
-    console.log(`
-        👨‍🚀 Welcome, Commander!
+    console.log(
+      `👨‍🚀 Welcome, Commander!
 
-        You're lost in deep space ✨, far from your home planet Earth 🌍
-        Your mission: guide your trusty rocket 🚀 through the space ✨ and find a route back to Earth 🌍
+      You're lost in deep space ✨, far from your home planet Earth 🌍  
+      Your mission: navigate your rocket 🚀 through the space ✨ and make your way back to Earth 🌍
 
-        But beware — the void is riddled with mysterious black holes ⚫️
-        Fall into one and your ship will vanish beyond the event horizon! 💥
+      But be careful — the galaxy is full of mysterious black holes ⚫️  
+      One wrong move, and your rocket will be swallowed whole! ꩜
 
-        Use your navigation system to steer the rocket:
-        → ⬆️ (w) Up
-        → ⬇️ (s) Down
-        → ⬅️ (a) Left
-        → ➡️ (d) Right
+      Use your navigation system to steer the rocket:
+      → ⬆️ (w) Up  
+      → ⬇️ (s) Down  
+      → ⬅️ (a) Left  
+      → ➡️ (d) Right
 
-        Can you survive the dangers of space and return safely? 💫
+      Can you survive the dangers of space and return safely? 💫
 
-        Good luck, space traveler. Earth is waiting for you! 🌍✨
-        `);
-        prompt(`Press ENTER to start your mission 🚀`)
+      Good luck, space traveler. Earth is waiting for you! 🌍✨`
+    );
 
-        console.clear();
+    prompt("Press ENTER to begin your mission 🚀");
+    this.print();
 
     while (!this.gameOver) {
-      this.print();
-      this.askForInput();
+      const moved = this.askForInput(); 
+      if (moved && !this.gameOver) {
+        this.print(); 
+      }
     }
   }
 
   askForInput() {
-    const input = prompt("Where should the rocket fly next? (u = up, d = down, l = left, r = right): ");
+    const input = prompt("Where should the rocket fly next? (w = up, s = down, a = left, d = right): ");
     
     const oldX = this.playerX;
     const oldY = this.playerY;
     
     const moved = this.updatePosition(input);
-    if (!moved) return;
+    if (!moved) return false;
 
     if (!this.isInBounds()) {
+      console.clear();
       console.log("You've flown off the star map and are lost in space! 🌌");
       this.gameOver = true;
     } else if (this.checkLoss()) {
-      console.log("Your rocket was struck by a comet! ☄️ Mission failed.");
+      console.clear();
+      console.log("Your rocket was swallowed by a black hole! ⚫️ Mission failed.");
       this.gameOver = true;
     } else if (this.checkWin()) {
+      console.clear();
       console.log("You've reached Earth! 🌍 Mission accomplished, Commander! 🎉");
       this.gameOver = true;
     } else {
       if (this.field[oldY][oldX] !== world) {
         this.field[oldY][oldX] = space;
       }
-    this.field[this.playerY][this.playerX] = rocket;
+      this.field[this.playerY][this.playerX] = rocket;
     }
+    return true;
   }
 
   updatePosition(direction) {
@@ -81,7 +87,7 @@ class Field {
       case 'a': this.playerX -= 1; break;
       case 'd': this.playerX += 1; break;
       default:
-        console.log(console.log("Navigation error! Use w ⬆️, s ⬇️, a ⬅️, or d ➡️ to steer your rocket through space."));
+        console.log("Navigation error! Use w ⬆️, s ⬇️, a ⬅️, or d ➡️ to steer your rocket through space.");
         return false;
     }
     return true;
@@ -105,18 +111,18 @@ class Field {
   }
 
   checkLoss() {
-    return this.getCurrentTile() === comet;
+    return this.getCurrentTile() === hole;
   }
 
 
-  static generateField(height, width, cometPercentage = 0.2) {
+  static generateField(height, width, holePercentage = 0.2) {
     const field = [];
 
     for (let y = 0; y < height; y++) {
       const row = [];
       for (let x = 0; x < width; x++) {
         const random = Math.random();
-        row.push(random < cometPercentage ? comet : space);
+        row.push(random < holePercentage ? hole : space);
       }
       field.push(row);
     }
@@ -150,7 +156,7 @@ class Field {
 
     const tile = field[y][x];
     if (tile === world) return true;
-    if (tile === comet) continue;
+    if (tile === hole) continue;
 
     const neighbors = [
       [y - 1, x],
@@ -178,7 +184,17 @@ static generateSolvableField(height, width, holePercentage = 0.2) {
 }
 }
 
-const myFieldData = Field.generateSolvableField(20, 20, 0.35
-);
-const myField = new Field(myFieldData);
-myField.runGame();
+function startGame() {
+  const fieldData = Field.generateSolvableField(20, 20, 0.35);
+  const game = new Field(fieldData);
+  game.runGame();
+
+  const again = prompt("Do you want to play again? (y/n): ");
+  if (again.toLowerCase() === 'y') {
+    startGame();
+  } else {
+    console.log("Thanks for playing, Commander. Safe travels! 🚀🌌");
+  }
+}
+
+startGame();
